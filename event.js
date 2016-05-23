@@ -54,7 +54,22 @@ function bind(ele,eType,fn){
 	ele.attachEvent("on"+eType,tempFn);		
 	}	
 }
-
+//模拟bind
+Function.prototype.bind = function(context){
+	var _self = this;
+	return function(){
+		return _self.apply(context,arguments);
+	}
+}
+//
+Function.prototype.bind = function(){
+	var _self = this,
+	    context = [].shift.call(arguments),
+	    args = [].slice.call(arguments);
+	return function(){
+		return _self.apply(context,[].concat.call(args,[].slice.call(arguments)));
+	}
+}
 function unbind(ele,eType,fn){
 	if(ele.removeEventListener){
 		ele.removeEventListener(eType,fn,false);		
